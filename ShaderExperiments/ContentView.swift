@@ -16,6 +16,9 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .clipped()
                 .foregroundStyle(.tint)
+                .colorEffect(
+                    ShaderLibrary.passthrough()
+                )
         }
         .padding()
     }
