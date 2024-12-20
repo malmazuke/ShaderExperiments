@@ -17,7 +17,7 @@ struct ContentView: View {
                 .clipped()
                 .foregroundStyle(.tint)
                 .colorEffect(
-                    ShaderLibrary.passthrough()
+                    ShaderLibrary.recolour()
                 )
         }
         .padding()
