@@ -21,3 +21,14 @@ using namespace metal;
         color.a
     );
 }
+
+[[ stitchable ]] half4 rainbow(float2 position, half4 color, float time) {
+    float angle = atan2(position.y, position.x) + time;
+
+    return half4(
+        sin(angle),
+        sin(angle + 2),
+        sin(angle + 4),
+        color.a
+    );
+}

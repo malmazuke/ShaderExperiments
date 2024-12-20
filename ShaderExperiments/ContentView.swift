@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    @State private var start = Date.now
+
     var body: some View {
-        VStack {
+        TimelineView(.animation) { context in
+
+            let time = start.distance(to: context.date)
+
             Image(systemName: "heart.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -17,7 +23,9 @@ struct ContentView: View {
                 .clipped()
                 .foregroundStyle(.tint)
                 .colorEffect(
-                    ShaderLibrary.gradient()
+                    ShaderLibrary.rainbow(
+                        .float(time)
+                    )
                 )
         }
         .padding()
