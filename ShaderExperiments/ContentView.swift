@@ -2,6 +2,7 @@ import SwiftUI
 
 enum ShaderMenuItem: Identifiable, CaseIterable {
 
+    case passthrough
     case recolour
     case invertAlpha
     case gradient
@@ -11,6 +12,7 @@ enum ShaderMenuItem: Identifiable, CaseIterable {
 
     var title: String {
         switch self {
+        case .passthrough: return "Passthrough"
         case .recolour: return "Recolour"
         case .invertAlpha: return "Invert Alpha"
         case .gradient: return "Gradient"
@@ -21,6 +23,7 @@ enum ShaderMenuItem: Identifiable, CaseIterable {
     @ViewBuilder
     var destinationView: some View {
         switch self {
+        case .passthrough: PassthroughView()
         case .recolour: RecolourView()
         case .invertAlpha: InvertAlphaView()
         case .gradient: GradientView()
