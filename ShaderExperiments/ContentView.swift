@@ -2,6 +2,13 @@ import SwiftUI
 
 enum ShaderMenuItem: Identifiable, CaseIterable {
 
+    enum ShaderEffectType: String, Identifiable, CaseIterable {
+        case colour = "Colour"
+        case distortion = "Distortion"
+
+        var id: String { rawValue }
+    }
+
     case passthrough
     case recolour
     case invertAlpha
@@ -17,6 +24,16 @@ enum ShaderMenuItem: Identifiable, CaseIterable {
         case .invertAlpha: return "Invert Alpha"
         case .gradient: return "Gradient"
         case .rainbow: return "Rainbow"
+        }
+    }
+
+    var shaderEffectType: ShaderEffectType {
+        switch self {
+        case .passthrough: return .colour
+        case .recolour: return .colour
+        case .invertAlpha: return .colour
+        case .gradient: return .colour
+        case .rainbow: return .colour
         }
     }
 
@@ -40,8 +57,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(shaderItems) { item in
-                    NavigationLink(destination: item.destinationView) { Text(item.title) }
+                ForEach(ShaderMenuItem.ShaderEffectType.allCases) { type in
+                    Section(header: Text(type.rawValue)) {
+                        ForEach(shaderItems.filter { $0.shaderEffectType == type }) { item in
+                            NavigationLink(destination: item.destinationView) { Text(item.title) }
+                        }
+                    }
                 }
             }
             .navigationTitle("Shader Experiments")
