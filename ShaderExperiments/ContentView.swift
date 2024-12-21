@@ -1,35 +1,50 @@
-//
-//  ContentView.swift
-//  ShaderExperiments
-//
-//  Created by Mark Feaver on 21/12/2024.
-//
-
 import SwiftUI
+
+enum ShaderMenuItem: Identifiable, CaseIterable {
+
+    case recolour
+    case invertAlpha
+    case gradient
+    case rainbow
+
+    var id: String { title }
+
+    var title: String {
+        switch self {
+        case .recolour: return "Recolour"
+        case .invertAlpha: return "Invert Alpha"
+        case .gradient: return "Gradient"
+        case .rainbow: return "Rainbow"
+        }
+    }
+
+    @ViewBuilder
+    var destinationView: some View {
+        switch self {
+        case .recolour: RecolourView()
+        case .invertAlpha: InvertAlphaView()
+        case .gradient: GradientView()
+        case .rainbow: RainbowView()
+        }
+    }
+
+}
 
 struct ContentView: View {
 
-    @State private var start = Date.now
+    var shaderItems = ShaderMenuItem.allCases
 
     var body: some View {
-        TimelineView(.animation) { context in
-
-            let time = start.distance(to: context.date)
-
-            Image(systemName: "heart.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .clipped()
-                .foregroundStyle(.tint)
-                .colorEffect(
-                    ShaderLibrary.rainbow(
-                        .float(time)
-                    )
-                )
+        NavigationView {
+            List {
+                ForEach(shaderItems) { item in
+                    NavigationLink(destination: item.destinationView) { Text(item.title) }
+                }
+            }
+            .navigationTitle("Shader Experiments")
         }
-        .padding()
     }
+
 }
 
 #Preview {
